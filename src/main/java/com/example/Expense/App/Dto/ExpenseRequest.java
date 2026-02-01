@@ -18,4 +18,5 @@ public class ExpenseRequest {
     private String description;
     private LocalDate expenseDate;
     private Long categoryId;
+    private Long groupId;
 }

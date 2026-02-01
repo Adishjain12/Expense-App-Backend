@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,10 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
+public class ExpenseGroupResponse {
     private Long id;
     private String name;
-    private String email;
-    private List<GroupSummaryDTO> groups;
+
+    private List<MinimalUserDTO> members;
+
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

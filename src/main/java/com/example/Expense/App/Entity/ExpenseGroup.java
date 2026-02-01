@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
+@Table(name = "expense_group")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class ExpenseGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,18 +26,22 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
-    // Category → User (NULL = default)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    // Group ↔ User
+    @ManyToMany
+    @JoinTable(
+            name = "group_users",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> users;
 
-    // Category → Group
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private ExpenseGroup group;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    // Group → Expense
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<Expense> expenses;
+
+    // Group → Category
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private List<Category> categories;
 
     @CreationTimestamp
     @Column(updatable = false)

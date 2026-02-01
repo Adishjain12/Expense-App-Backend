@@ -18,7 +18,11 @@ public class ExpenseResponse {
     private BigDecimal amount;
     private String description;
     private LocalDate expenseDate;
-    private Long categoryId;
-    private String categoryName;
+
+    private MinimalUserDTO user;
+    private CategorySummaryDTO category;
+    private GroupSummaryDTO group;
+
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

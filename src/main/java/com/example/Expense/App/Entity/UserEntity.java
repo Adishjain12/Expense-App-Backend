@@ -9,36 +9,44 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String password;
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL
-    )
+
+    // User → Expense
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Expense> expenses;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL
-    )
+    // User → Category (custom categories)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Category> categories;
+
+    // User ↔ Group (Many-to-Many)
+    @ManyToMany(mappedBy = "users")
+    private List<ExpenseGroup> groups;
+
     @CreationTimestamp
     @Column(updatable = false)
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
+
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 }

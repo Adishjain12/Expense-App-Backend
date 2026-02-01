@@ -31,9 +31,7 @@ public class UserServiceImp implements UserService {
         return UserResponse.builder()
                 .name(newUser.getName())
                 .email(newUser.getEmail())
-                .password(newUser.getPassword())
                 .createdAt(newUser.getCreatedAt())
-                .updatedAt(newUser.getUpdatedAt())
                 .build();
     }
 
