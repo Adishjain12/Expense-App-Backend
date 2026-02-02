@@ -17,18 +17,22 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImp implements UserService {
+    @Autowired
     private UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse createUser(UserRequest request) {
         UserEntity newUser=convertToEntity(request);
+        System.out.println("New user"+newUser);
         newUser=userRepository.save(newUser);
+        System.out.println("Saved");
         return convertToResponse(newUser);
     }
 
     private UserResponse convertToResponse(UserEntity newUser) {
         return UserResponse.builder()
+                .id(newUser.getId())
                 .name(newUser.getName())
                 .email(newUser.getEmail())
                 .createdAt(newUser.getCreatedAt())

@@ -36,8 +36,8 @@ public class AuthController {
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) throws Exception {
         authenticate(request.getEmail(),request.getPassword());
-        System.out.println("adish");
-        final String token=jwtService.generateToken(request.getEmail());
+        final UserDetails userDetails=appUserDetailsService.loadUserByUsername(request.getEmail());
+        final String token=jwtService.generateToken(userDetails);
         return new AuthResponse(request.getEmail(),token);
     }
 
